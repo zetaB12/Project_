@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
+using Aplicacion;
 using Dominio;
+
 
 namespace Proyect__colmena.Controllers
 {
     public class LoginController : Controller
     {
+        private GestionarLoginService _gestionarLoginService = new GestionarLoginService();
+
         // GET: Login
         public ActionResult Index()
         {
@@ -16,9 +16,16 @@ namespace Proyect__colmena.Controllers
         }
 
         [HttpPost]
-        public String VerificarAcceso(Usuario usuario)
+        [ActionName("Index")]
+        public string VerificarAcceso([Bind(Include = "UserName, Password")] Usuario u)
         {
-            return "hola " + usuario.UserName + " " +usuario.Password;
+            var usuario = _gestionarLoginService.VerificarAcceso(u.UserName, u.Password);
+            if (usuario != null)
+            {
+                if (usuario.UserName.Equals(u.UserName) && usuario.Password.Equals(u.Password)) return "bienvenido";
+            }
+            
+            return "mal";
         }
     }
 }

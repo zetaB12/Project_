@@ -1,22 +1,20 @@
-﻿@using System.Web.UI.WebControls
-@model Dominio.Usuario
+﻿@model Dominio.Usuario
 @{
     Layout = "~/Views/Shared/_Layout_Login.cshtml";
     ViewBag.Title = "Login";
 }
 
-@using (Html.BeginForm("VerificarAcceso", "Login", FormMethod.Post, new {@class = "login100-form validate-form"}))
+@using (Html.BeginForm("Index", "Login", FormMethod.Post, new {@class = "login100-form validate-form"}))
 {
     <div class="wrap-input100 validate-input m-b-26" data-validate="Username is required">
         <span class="label-input100">Username</span>
-        @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "input100", @placeholder = "Enter Username" }})
+        @Html.EditorFor(model => model.UserName, new {htmlAttributes = new {@class = "input100", placeholder = "Enter Username"}})
         <span class="focus-input100"></span>
     </div>
 
     <div class="wrap-input100 validate-input m-b-18" data-validate="Password is required">
         <span class="label-input100">Password</span>
-        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "input100", @placeholder = "Enter password", @type = "password"} })
-        
+        @Html.EditorFor(model => model.Password, new {htmlAttributes = new {@class = "input100", placeholder = "Enter password", type = "password"}})
         <span class="focus-input100"></span>
     </div>
 
@@ -38,6 +36,4 @@
     <div class="container-login100-form-btn">
         <input type="submit" value="Login" class="login100-form-btn"/>
     </div>
-
 }
-

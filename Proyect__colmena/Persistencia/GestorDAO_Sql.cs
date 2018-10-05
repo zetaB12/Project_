@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Persistencia
 {
-    class GestorDAO_Sql
+    public class GestorDAO_Sql
     {
         private SqlConnection _conexion;
 
@@ -35,6 +37,25 @@ namespace Persistencia
             catch (Exception x)
             {
                 throw x;
+            }
+        }
+
+        public SqlDataReader EjecutarComandoSp(SqlCommand command, List<SqlParameter> parametros)
+        {
+            try
+            {
+                SqlCommand comando = _conexion.CreateCommand();
+               /* if (_transaccion != null)
+                    comando.Transaction = _transaccion;*/
+                comando.CommandText = command.CommandText;
+                comando.Parameters.AddRange(parametros.ToArray());
+                comando.CommandType = CommandType.StoredProcedure;
+                var resultado = comando.ExecuteReader();
+                return resultado;
+            }
+            catch (Exception e)
+            {
+                throw e;
             }
         }
     }
