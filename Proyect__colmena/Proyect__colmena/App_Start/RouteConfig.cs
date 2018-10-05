@@ -12,7 +12,7 @@ namespace Proyect__colmena
             routes.MapRoute(
                 "Default",
                 "{controller}/{action}/{id}",
-                new {controller = "Home", action = "Index", id = UrlParameter.Optional}
+                new {controller = "Login", action = "Index", id = UrlParameter.Optional}
             );
         }
     }

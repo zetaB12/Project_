@@ -12,11 +12,13 @@ namespace Aplicacion
     {
         private GestorDAO_Sql _gestorDaoSql;
         private UsuarioDao _usuarioDao;
+        private Usuario _usuario;
 
         public GestionarLoginService()
         {
             _gestorDaoSql = new GestorDAO_Sql();
             _usuarioDao = new UsuarioDao(_gestorDaoSql);
+            _usuario = new Usuario();
         }
 
         public Usuario VerificarAcceso(string user, string pass)
@@ -26,7 +28,8 @@ namespace Aplicacion
                 _gestorDaoSql.AbrirConexion();
                 var usuario = _usuarioDao.VerificarAcceso(user, pass);
                 _gestorDaoSql.CerraConexion();
-                return usuario;
+                var usuarioVerificado = _usuario.VerficarAcceso(usuario);
+                return usuarioVerificado;
             }
             catch (Exception x)
             {

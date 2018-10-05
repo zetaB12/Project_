@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using Aplicacion;
 using Dominio;
 
@@ -17,15 +18,23 @@ namespace Proyect__colmena.Controllers
 
         [HttpPost]
         [ActionName("Index")]
-        public string VerificarAcceso([Bind(Include = "UserName, Password")] Usuario u)
+        public ActionResult VerificarAcceso([Bind(Include = "UserName, Password")] Usuario u)
         {
-            var usuario = _gestionarLoginService.VerificarAcceso(u.UserName, u.Password);
-            if (usuario != null)
+            try
             {
-                if (usuario.UserName.Equals(u.UserName) && usuario.Password.Equals(u.Password)) return "bienvenido";
+                var usuario = _gestionarLoginService.VerificarAcceso(u.UserName, u.Password);
+                return RedirectToAction("Home");
             }
-            
-            return "mal";
+            catch (ApplicationException a)
+            {
+                ViewBag.errorLogin = a.Message;
+                return View();
+            }
+        }
+
+        public ActionResult Home()
+        {
+            return View();
         }
     }
 }

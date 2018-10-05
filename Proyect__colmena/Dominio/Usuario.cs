@@ -11,5 +11,20 @@ namespace Dominio
         public int IdUsuario { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
+
+        public Usuario VerficarAcceso(Usuario usuario)
+        {
+            try
+            {
+                if (usuario == null)
+                    throw new ApplicationException("Usuario o Password no válidos!");
+                return usuario;
+
+            }
+            catch (Exception x)
+            {                
+                throw x;
+            }
+        }
     }
 }
