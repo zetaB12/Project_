@@ -11,7 +11,6 @@ namespace Persistencia
     public class UsuarioDao
     {
         private GestorDAO_Sql _gestorDaoSql;
-
         public UsuarioDao(GestorDAO_Sql gestorDaoSql)
         {
             _gestorDaoSql = gestorDaoSql;
@@ -20,7 +19,9 @@ namespace Persistencia
         public Usuario VerificarAcceso(string user, string pass)
         {
             var cmd = new SqlCommand("_spVerificarAcceso");
-
+            GestorDAO_Sql _gestorDaoSql = null;
+            _gestorDaoSql = new GestorDAO_Sql();
+            //_gestorDaoSql.AbrirConexion(); esto ya no es necesario ya que a traves del constructor le paso la referencia del gestorSQL
             Usuario usuario = null;
 
             List<SqlParameter> parameters = new List<SqlParameter>()
@@ -29,9 +30,7 @@ namespace Persistencia
                 new SqlParameter("@prmstrPassword", pass)
             };
 
-            try
-            {
-                var data = _gestorDaoSql.EjecutarComandoSp(cmd, parameters);
+              var data = _gestorDaoSql.EjecutarComandoSp(cmd, parameters);
                 if (data.Read())
                 {
                     usuario = new Usuario()
@@ -43,12 +42,7 @@ namespace Persistencia
                 }
                 data.Close();
                 return usuario;
-            }
-            catch (Exception x)
-            {
-                Console.WriteLine(x);
-                throw;
-            }
+           
         }
     }
 }

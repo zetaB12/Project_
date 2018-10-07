@@ -23,18 +23,13 @@ namespace Aplicacion
 
         public Usuario VerificarAcceso(string user, string pass)
         {
-            try
-            {
+            
                 _gestorDaoSql.AbrirConexion();
                 var usuario = _usuarioDao.VerificarAcceso(user, pass);
                 _gestorDaoSql.CerraConexion();
                 var usuarioVerificado = _usuario.VerficarAcceso(usuario);
                 return usuarioVerificado;
-            }
-            catch (Exception x)
-            {
-                throw x;
-            }
+            
         }
     }
 }

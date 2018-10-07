@@ -42,8 +42,7 @@ namespace Persistencia
 
         public SqlDataReader EjecutarComandoSp(SqlCommand command, List<SqlParameter> parametros)
         {
-            try
-            {
+            
                 SqlCommand comando = _conexion.CreateCommand();
                /* if (_transaccion != null)
                     comando.Transaction = _transaccion;*/
@@ -52,11 +51,7 @@ namespace Persistencia
                 comando.CommandType = CommandType.StoredProcedure;
                 var resultado = comando.ExecuteReader();
                 return resultado;
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
+           
         }
     }
 }
