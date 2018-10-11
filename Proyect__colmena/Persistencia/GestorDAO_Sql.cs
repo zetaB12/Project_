@@ -11,6 +11,7 @@ namespace Persistencia
     public class GestorDAO_Sql
     {
         private SqlConnection _conexion;
+        private SqlTransaction _transaccion;
 
         public void AbrirConexion()
         {
@@ -40,6 +41,45 @@ namespace Persistencia
             }
         }
 
+        public void IniciarTransaccion()
+        {
+            try
+            {
+                AbrirConexion();
+                _transaccion = _conexion.BeginTransaction();
+            }
+            catch (Exception x)
+            {
+                throw x;
+            }
+        }
+
+        public void TerminarTransaccion()
+        {
+            try
+            {
+                _transaccion.Commit();
+                _conexion.Close();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public void CancelarTransaccion()
+        {
+            try
+            {
+                _transaccion.Rollback();
+                _conexion.Close();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
         public SqlDataReader EjecutarComandoSp(SqlCommand command, List<SqlParameter> parametros)
         {
             
@@ -52,6 +92,23 @@ namespace Persistencia
                 var resultado = comando.ExecuteReader();
                 return resultado;
            
+        }
+
+        public SqlCommand ObtenerComandoSp(SqlCommand command)
+        {
+            try
+            {
+                SqlCommand comando = _conexion.CreateCommand();
+                if (_transaccion != null)
+                    comando.Transaction = _transaccion;
+                comando.CommandText = command.CommandText;
+                comando.CommandType = CommandType.StoredProcedure;
+                return comando;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
     }
 }

@@ -8,7 +8,7 @@ using Persistencia;
 
 namespace Aplicacion
 {
-    class GestionarCategoriaService
+    public class GestionarCategoriaService
     {
         private GestorDAO_Sql _gestorDaoSql;
         private CategoriaDao _categoriaDao;

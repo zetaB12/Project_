@@ -11,7 +11,7 @@ namespace Dominio
         public int IdProducto { get; set; }
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
-        public bool Inactivo { get; set; }
+        public bool Activo { get; set; }
 
         public Categoria Categoria { get; set; }
         public DetalleProducto DetalleProducto { get; set; }

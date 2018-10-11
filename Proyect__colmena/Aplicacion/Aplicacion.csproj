@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GestionarProductoService.cs" />
     <Compile Include="GestionarCategoriaService.cs" />
     <Compile Include="GestionarLoginService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -19,8 +19,8 @@ namespace Persistencia
         public Usuario VerificarAcceso(string user, string pass)
         {
             var cmd = new SqlCommand("_spVerificarAcceso");
-            GestorDAO_Sql _gestorDaoSql = null;
-            _gestorDaoSql = new GestorDAO_Sql();
+/*            GestorDAO_Sql _gestorDaoSql = null;
+            _gestorDaoSql = new GestorDAO_Sql();*/
             //_gestorDaoSql.AbrirConexion(); esto ya no es necesario ya que a traves del constructor le paso la referencia del gestorSQL
             Usuario usuario = null;
 
