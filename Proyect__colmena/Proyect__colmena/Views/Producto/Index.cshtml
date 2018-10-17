@@ -1,29 +1,65 @@
 ﻿@using Dominio
-@model IEnumerable<Dominio.Categoria>
+@model IEnumerable<Dominio.Producto>
 
 @{
     ViewBag.Title = "Listar Categorias";
 }
 
 <div style="float:left">
-    <b>Categoria:</b>
+    <b>Productos:</b>
 </div>
+<br/>
+<table class="table table-bordered table-striped table-hover js-basic-example dataTable">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Descripcion)
+        </th>
 
-<div style="float:left" class="col-lg-1.8">
-    <select class="form-control" id="categoria">
-        <option value="0">--Todos--</option>
-        @{
-            List<Categoria> listaCategoria = (List<Categoria>)ViewBag.listaCategoria;
-            foreach (var categoria in listaCategoria)
-            {
-                <option value="@categoria.IdCategoria">@categoria.Nombre</option>
-            }
-        }
-    </select>
+        <th>
+            @Html.DisplayNameFor(model => model.DetalleProducto.PrecioCosto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetalleProducto.PrecioVenta)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetalleProducto.Stock)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Categoria.Nombre)
+        </th>
+        <th></th>
+    </tr>
 
-</div>
-<div class="form-group">
-    <div class="col-md-10">
-        @Html.DropDownList("lista", null, htmlAttributes: new {@class = "control-label col-md-2"})
-    </div>
-</div>
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Descripcion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DetalleProducto.PrecioCosto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DetalleProducto.PrecioVenta)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DetalleProducto.Stock)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Categoria.Nombre)
+        </td>
+
+        <td>
+            @Html.ActionLink("Editar", "Edit", new { id = item.IdProducto }) |
+            <!--Html.ActionLink("Bloquear", "BloquearPersonaCorriente", new { idPersonaCorriente = item.personaCorrienteID })-->
+        </td>
+    </tr>
+    }
+
+</table>

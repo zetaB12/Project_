@@ -94,6 +94,24 @@ namespace Persistencia
            
         }
 
+        public SqlDataReader EjecutarConsulta(string sentenciaSql)
+        {
+            try
+            {
+                SqlCommand comando = _conexion.CreateCommand();
+                if (_transaccion != null)
+                    comando.Transaction = _transaccion;
+                comando.CommandText = sentenciaSql;
+                comando.CommandType = CommandType.Text;
+                SqlDataReader resultado = comando.ExecuteReader();
+                return resultado;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
         public SqlCommand ObtenerComandoSp(SqlCommand command)
         {
             try

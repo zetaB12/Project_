@@ -21,7 +21,14 @@ namespace Aplicacion
             _productoDao = new ProductoDao(_gestorDaoSql);
             _detalleProductoDao = new DetalleProductoDao(_gestorDaoSql);
         }
-        
+
+        public List<Producto> ListarProductos()
+        {
+            _gestorDaoSql.IniciarTransaccion();
+            var lista = _productoDao.ListarProductos();
+            _gestorDaoSql.TerminarTransaccion();
+            return lista;
+        }
 
         public bool RegistrarProducto(Producto producto)
         {
@@ -34,7 +41,7 @@ namespace Aplicacion
                     _gestorDaoSql.CancelarTransaccion();
                     return false;
                 }
-                _gestorDaoSql.IniciarTransaccion();//segunda llamda a iniciar transaccion
+                _gestorDaoSql.IniciarTransaccion();//segunda llamada a iniciar transaccion
                 int insert = InsertarProducto(producto, idDetalleProducto);
                 if (insert <= 0)
                 {
@@ -77,6 +84,36 @@ namespace Aplicacion
                 else
                     _gestorDaoSql.CancelarTransaccion();
                 return inserto;
+            }
+            catch (Exception x)
+            {
+                throw x;
+            }
+        }
+
+        public Producto BuscarProductoID(int id)
+        {
+            try
+            {
+                _gestorDaoSql.AbrirConexion();
+                var producto = _productoDao.BuscarProductoID(id);
+                _gestorDaoSql.CerraConexion();
+                return producto;
+            }
+            catch (Exception x)
+            {
+                throw x;
+            }
+        }
+
+        public bool EditarProducto(Producto producto)
+        {
+            try
+            {
+                _gestorDaoSql.IniciarTransaccion();
+                var insert = _productoDao.EditarProducto(producto);
+                _gestorDaoSql.TerminarTransaccion();
+                return insert;
             }
             catch (Exception x)
             {
