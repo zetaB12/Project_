@@ -1,0 +1,91 @@
+﻿@model IEnumerable<Dominio.Cliente>
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title">Default Modal</h4>
+</div>
+
+<div class="modal-body">
+    <div id="CotenidoTablaPrendas">
+        <div class="table-responsive">
+            <table id="tablaPrendas" class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>#</th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Nombre)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Apellidos)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Dni)
+                    </th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                @{ int i = 0;}
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <input name="rdbtnPrenda" type="radio" id="rdbtnPrenda" class="with-gap radio-col-red" checked/>
+                        </td>
+                        <td>
+                            @{ i++;
+                                @i
+                            }
+
+                            <input type="hidden" value="@item.IdCliente" class="IdCliente" />
+                            <input type="hidden" value="@item.Nombre" class="NombreCliente" />
+                            <input type="hidden" value="@item.Dni" class="DniCliente" />
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Nombre)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Apellidos)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Dni)
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+    <button type="button" id="btnAgregar" class="btn btn-primary" data-dismiss="modal">Agregar</button>
+</div>
+
+
+<script type="text/javascript">
+
+    function agregarClientes() {
+
+        $('#tablaPrendas tbody tr').each(function () {
+            if ($(this).find(':radio').is(':checked')) {
+                var _IdCliente = $(this).find('.IdCliente').val();
+                var _NombreCliente = $(this).find('.NombreCliente').val();
+                var _DniCliente = $(this).find('.DniCliente').val();
+
+                $('#txtIdCliente').val(_IdCliente);
+                $('#txtNombreCliente').val(_NombreCliente);
+                $('#txtDniCliente').val(_DniCliente);
+                
+            }
+        });
+    }
+
+    $('#btnAgregar').click(function () {
+        agregarClientes();
+    });
+</script>

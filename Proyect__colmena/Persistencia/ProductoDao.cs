@@ -106,20 +106,26 @@ namespace Persistencia
                 var data = _gestorDaoSql.EjecutarComandoSp(cmd, parameters);
                 if (data.Read())
                 {
-                    producto = new Producto();
-                    producto.IdProducto = Convert.ToInt32(data["IdProducto"]);
-                    producto.Nombre = data["Nombre"].ToString();
-                    producto.Descripcion = data["Descripcion"].ToString();
+                    producto = new Producto
+                    {
+                        IdProducto = Convert.ToInt32(data["IdProducto"]),
+                        Nombre = data["Nombre"].ToString(),
+                        Descripcion = data["Descripcion"].ToString()
+                    };
 
-                    categoria = new Categoria();
-                    categoria.IdCategoria = Convert.ToInt32(data["Idcategoria"]);
-                    categoria.Nombre = data["Nombre"].ToString();
+                    categoria = new Categoria
+                    {
+                        IdCategoria = Convert.ToInt32(data["Idcategoria"]),
+                        Nombre = data["Nombre"].ToString()
+                    };
 
-                    detalleProducto = new DetalleProducto();
-                    detalleProducto.IdDetalleProducto = Convert.ToInt32(data["IdDetalleProducto"]);
-                    detalleProducto.PrecioCosto = Convert.ToDecimal(data["PrecioCosto"]);
-                    detalleProducto.PrecioVenta = Convert.ToDecimal(data["PrecioVenta"]);
-                    detalleProducto.Stock = Convert.ToInt32(data["Stock"]);
+                    detalleProducto = new DetalleProducto
+                    {
+                        IdDetalleProducto = Convert.ToInt32(data["IdDetalleProducto"]),
+                        PrecioCosto = Convert.ToDecimal(data["PrecioCosto"]),
+                        PrecioVenta = Convert.ToDecimal(data["PrecioVenta"]),
+                        Stock = Convert.ToInt32(data["Stock"])
+                    };
 
                     producto.Categoria = categoria;
                     producto.DetalleProducto = detalleProducto;

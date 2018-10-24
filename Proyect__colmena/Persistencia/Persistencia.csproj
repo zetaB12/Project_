@@ -41,11 +41,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CategoriaDao.cs" />
+    <Compile Include="ClienteDao.cs" />
     <Compile Include="DetalleProductoDao.cs" />
     <Compile Include="GestorDAO_Sql.cs" />
     <Compile Include="ProductoDao.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UsuarioDao.cs" />
+    <Compile Include="VentaDao.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Dominio\Dominio.csproj">

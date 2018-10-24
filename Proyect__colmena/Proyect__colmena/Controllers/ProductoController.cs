@@ -27,7 +27,7 @@ namespace Proyect__colmena.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(Producto producto)
+        public ActionResult Create(Producto producto, string action, string xd)
         {
             bool insert = _gestionarProductoService.RegistrarProducto(producto);
             if (insert == true)
@@ -54,6 +54,11 @@ namespace Proyect__colmena.Controllers
             bool insert = _gestionarProductoService.EditarProducto(producto);
             return RedirectToAction("Index");
             //return producto.IdProducto + " " + producto.Nombre + " " + producto.Descripcion + " " + producto.Categoria.IdCategoria;
+        }
+
+        public ActionResult ProductoModal()
+        {
+            return PartialView();
         }
     }
 }

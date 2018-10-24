@@ -302,7 +302,7 @@ desired effect
                 -------------------------->
 
                 @RenderBody();
-                
+
                 <!--------------------------
                 | Your Page Content Here |
                 -------------------------->
@@ -407,7 +407,8 @@ desired effect
     <script src="~/Content/bootstrap_Master_Layout/dist/js/adminlte.min.js"></script>
 
     <!-- Optionally, you can add Slimscroll and FastClick plugins.
-         Both of these plugins are recommended to enhance the
-         user experience. -->
+    Both of these plugins are recommended to enhance the
+    user experience. -->
+    @RenderSection("scripts", required: false)
 </body>
 </html>

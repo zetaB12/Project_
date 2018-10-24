@@ -1,0 +1,228 @@
+﻿@using Dominio
+@model Proyect__colmena.ViewModels.VentaViewModel
+
+@{
+    Layout = "~/Views/Shared/Master_Layout.cshtml";
+    ViewBag.Title = "Create";
+}
+
+<div class="modal fade" id="ListaClientes" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div id="ContenidoModal_Clientes"></div>
+        </div>
+    </div>
+</div>
+
+@using (Html.BeginForm("Create", "Venta", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <table id="encabezado" class="table">
+        <thead>
+        <tr style="font-size:20px;">
+            <th>Id Venta <input style="color:red; font-size:12px;" class="form-control" type="text" id="id_venta" readonly /></th>
+            <th>
+                Fecha
+                <input style="color:red;font-size:20px;" class="form-control" type="text" id="id_fecha" readonly value="@DateTime.Now.Year-@DateTime.Now.Month-@DateTime.Now.Day @DateTime.Now.Hour:@DateTime.Now.Minute:@DateTime.Now.Second" />
+
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr style="font-size:20px;">
+            <td>
+                Detalles del Cliente
+                    <input class="btn btn-warning btn-lg col-md-12" type="button" name="enlace_cliente" value="Obtener Cliente" 
+                           data-toggle="modal" data-target="#ListaClientes" onclick="javascript: muestraModal();"/>
+                
+            </td>
+            <td>
+                Modo de Pago
+                <div class="col-md-12 dropdown">
+                    @* @Html.DropDownList("modoPago", ViewBag.ListaModoPago as SelectList, "Seleccione Modo Pago", htmlAttributes: new { @class = "form-control", @required = "required" })*@
+                </div>
+            </td>
+        </tr>
+        <tr style="font-size:20px;">
+
+            <td>Nombre Cliente <input style="font-size:20px; font-weight:700;" class="form-control" type="text" id="txtNombreCliente" readonly required /></td>
+            <td>
+                DNI
+                <input type="hidden" id="txtCodigoCliente">
+                <input style="font-size:20px; font-weight:700;" class="form-control" type="text" id="txtDniCliente" readonly required />
+            </td>
+        </tr>
+       
+        </tbody>
+    </table>
+
+
+    <div class="row">
+        <div class="col-xs-12">
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group">
+                @Html.LabelFor(x => x.Cliente)
+                @Html.TextBoxFor(x => x.Cliente, new { @class = "form-control", placeholder = "Ingrese el nombre del cliente" })
+                @Html.ValidationMessage("Cliente", null, new { @class = "label label-danger" })
+            </div>
+
+            <div class="well well-sm">
+                <div class="row">
+                    <div class="col-xs-7">
+                        @Html.EditorFor(model => model.CabeceraProductoId)
+                        @Html.EditorFor(model => model.CabeceraProductoNombre, new { htmlAttributes = new { @class = "form-control", id = "Producto" } })
+                        @Html.ValidationMessageFor(model => model.CabeceraProductoNombre, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-xs-2">
+                        <div class="input-group">
+                            @Html.TextBoxFor(x => x.CabeceraProductoCantidad, new { @class = "form-control", placeholder = "Cantidad" })
+                        </div>
+                    </div>
+
+                    <div class="col-xs-2">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1">S/.</span>
+                            @Html.TextBoxFor(x => x.CabeceraProductoPrecio, new { @class = "form-control", placeholder = "Precio" })
+                        </div>
+                    </div>
+
+                    <div class="col-xs-1">
+                        <button class="btn btn-primary" type="submit" value="agregar_producto" name="action">
+                            <i class="glyphicon glyphicon-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <hr />
+
+            <ul id="facturador-detalle" class="list-group">
+                @if (Model.lineaVenta.Count > 0)
+                {
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-xs-1"></div>
+                            <div class="col-xs-5">
+                                <b>Producto</b>
+                            </div>
+                            <div class="col-xs-2 text-center">
+                                <b>Cantidad</b>
+                            </div>
+                            <div class="col-xs-2 text-right">
+                                <b>Precio Unitario</b>
+                            </div>
+                            <div class="col-xs-2 text-right">
+                                <b>Monto</b>
+                            </div>
+                        </div>
+                    </li>
+                }
+                @foreach (var item in Model.lineaVenta)
+                {
+                    var i = Model.lineaVenta.IndexOf(item);
+                    <li class="list-group-item">
+                        <!-- Modelo -->
+                        @Html.Hidden("lineaVenta[" + i + "].ProductoId", item.ProductoId)
+                        @Html.Hidden("lineaVenta[" + i + "].ProductoNombre", item.ProductoNombre)
+                        @Html.Hidden("lineaVenta[" + i + "].PrecioUnitario", item.PrecioUnitario)
+                        @Html.Hidden("lineaVenta[" + i + "].Cantidad", item.Cantidad)
+                        @Html.Hidden("lineaVenta[" + i + "].Retirar", item.Retirar, new { @class = "retirar" })
+
+                        <div class="row">
+                            <div class="col-xs-1 text-right">
+                                <button class="btn btn-danger btn-xs btn-block btn-retirar" type="submit" value="retirar_producto" name="action">
+                                    <i class="glyphicon glyphicon-remove"></i>
+                                </button>
+                            </div>
+                            <div class="col-xs-5">
+                                @item.ProductoNombre
+                            </div>
+                            <div class="col-xs-2 text-center">
+                                @item.Cantidad
+                            </div>
+                            <div class="col-xs-2 text-right">
+                                @string.Format("{0:c}", item.PrecioUnitario)
+                            </div>
+                            <div class="col-xs-2 text-right">
+                                @string.Format("{0:c}", item.Monto())
+                            </div>
+                        </div>
+                    </li>
+                }
+                @if (Model.lineaVenta.Count > 0)
+                {
+                    <li class="list-group-item text-right" style="font-size:18px;">
+                        @string.Format("{0:c}", Model.Total())
+                    </li>
+                }
+            </ul>
+            @if (Model.lineaVenta.Count > 0)
+            {
+                <button class="btn btn-primary btn-block btn-lg" type="submit" value="generar" name="action">Generar comprobante</button>
+            }
+
+        </div>
+    </div>
+
+}
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            LimpiarAgregarProducto();
+
+            $(".btn-retirar").click(function () {
+                if (confirm('¿Está seguro de retirar el item seleccionado?')) {
+                    $(this).closest('.list-group-item').find('.retirar').val("True");
+                    return true;
+                }
+
+                return false;
+            })
+            /* Autocomplete de producto, jquery UI */
+            $("#Producto").autocomplete({
+                dataType: 'JSON',
+                source: function (request, response) {
+                    jQuery.ajax({
+                        url: '/Home/BuscarProducto',
+                        type: "post",
+                        dataType: "json",
+                        data: {
+                            nombre: request.term
+                        },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return {
+                                    id: item.id,
+                                    value: item.Nombre,
+                                    precio: item.Precio
+                                }
+                            }))
+                        }
+                    })
+                },
+                select: function (e, ui) {
+                    $("#CabeceraProductoId").val(ui.item.id);
+                    $("#CabeceraProductoPrecio").val(ui.item.precio);
+                    $("#CabeceraProductoCantidad").focus();
+                }
+            })
+        })
+
+        function LimpiarAgregarProducto() {
+            $("#CabeceraProductoId").val("");
+            $("#Producto").val("");
+            $("#CabeceraProductoPrecio").val("");
+            $("#CabeceraProductoCantidad").val(1);
+        }
+
+        function muestraModal() {
+            $('#ContenidoModal_Clientes').load('@Url.Action("ObtenerClientes")');
+        }
+
+        
+    </script>
+}

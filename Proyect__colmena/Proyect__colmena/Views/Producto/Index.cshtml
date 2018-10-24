@@ -2,13 +2,21 @@
 @model IEnumerable<Dominio.Producto>
 
 @{
+    Layout = "~/Views/Shared/Master_Layout.cshtml";
     ViewBag.Title = "Listar Categorias";
 }
 
 <div style="float:left">
     <b>Productos:</b>
 </div>
-<br/>
+<br />
+
+
+@Html.Partial("ProductoModal")
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#miModal">
+    Abrir modal
+</button>
+
 <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
     <tr>
         <th>
@@ -35,31 +43,31 @@
 
     @foreach (var item in Model)
     {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Nombre)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Descripcion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DetalleProducto.PrecioCosto)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DetalleProducto.PrecioVenta)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DetalleProducto.Stock)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Categoria.Nombre)
-        </td>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DetalleProducto.PrecioCosto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DetalleProducto.PrecioVenta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DetalleProducto.Stock)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Categoria.Nombre)
+            </td>
 
-        <td>
-            @Html.ActionLink("Editar", "Edit", new { id = item.IdProducto }) |
-            <!--Html.ActionLink("Bloquear", "BloquearPersonaCorriente", new { idPersonaCorriente = item.personaCorrienteID })-->
-        </td>
-    </tr>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { id = item.IdProducto }) |
+                <!--Html.ActionLink("Bloquear", "BloquearPersonaCorriente", new { idPersonaCorriente = item.personaCorrienteID })-->
+            </td>
+        </tr>
     }
 
 </table>
